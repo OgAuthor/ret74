@@ -32,6 +32,7 @@ build:
 
 run:
   command: sh start.sh
+  persistenceMount: /data
   containerPort: 80
 ```
 
@@ -260,6 +261,12 @@ MANAGER_NOTIFICATION_EMAILS=manager1@твой-домен.ru,manager2@твой-д
 
 ```bash
 sh start.sh
+```
+
+В интерфейсе Amvera также заполни:
+
+```text
+persistenceMount=/data
 ```
 
 А внутри `start.sh` выполняются:

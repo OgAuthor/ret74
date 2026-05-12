@@ -10,4 +10,5 @@ build:
 
 run:
   command: sh start.sh
+  persistenceMount: /data
   containerPort: 80
