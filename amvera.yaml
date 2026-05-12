@@ -9,6 +9,6 @@ build:
   useCache: true
 
 run:
-  command: sh start.sh
+  command: ./start.sh
   persistenceMount: /data
   containerPort: 80

@@ -34,7 +34,7 @@ python3 manage.py createsuperuser
 Amvera запускает проект командой из `amvera.yaml`:
 
 ```bash
-sh start.sh
+./start.sh
 ```
 
 Внутри `start.sh` выполняются миграции, сборка статики и запуск Gunicorn.

@@ -31,7 +31,7 @@ build:
   useCache: true
 
 run:
-  command: sh start.sh
+  command: ./start.sh
   persistenceMount: /data
   containerPort: 80
 ```
@@ -260,7 +260,7 @@ MANAGER_NOTIFICATION_EMAILS=manager1@твой-домен.ru,manager2@твой-д
 Во время запуска должны выполниться команды из `amvera.yaml`:
 
 ```bash
-sh start.sh
+./start.sh
 ```
 
 В интерфейсе Amvera также заполни:
