@@ -9,5 +9,5 @@ build:
   useCache: true
 
 run:
-  command: python3 manage.py migrate && python3 manage.py collectstatic --noinput && gunicorn telemaster74.wsgi:application --bind 0.0.0.0:80
+  command: sh start.sh
   containerPort: 80

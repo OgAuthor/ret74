@@ -10,6 +10,7 @@
 manage.py
 requirements.txt
 amvera.yaml
+start.sh
 repairs/
 telemaster74/
 templates/
@@ -30,11 +31,11 @@ build:
   useCache: true
 
 run:
-  command: python3 manage.py migrate && python3 manage.py collectstatic --noinput && gunicorn telemaster74.wsgi:application --bind 0.0.0.0:80
+  command: sh start.sh
   containerPort: 80
 ```
 
-То есть Amvera сама установит зависимости из `requirements.txt`, а при запуске выполнит миграции, соберет статику и запустит сайт через Gunicorn.
+То есть Amvera сама установит зависимости из `requirements.txt`, а при запуске вызовет `start.sh`. Скрипт выполнит миграции, соберет статику и запустит сайт через Gunicorn.
 
 ## 2. Открыть проект в Visual Studio Code
 
@@ -124,7 +125,7 @@ http://127.0.0.1:8000/
 https://github.com/OgAuthor/ret74.git
 ```
 
-После перехода с Render на Amvera надо загрузить новые файлы: `amvera.yaml`, новую инструкцию и удаление `render.yaml`.
+После перехода с Render на Amvera надо загрузить новые файлы: `amvera.yaml`, `start.sh`, новую инструкцию и удаление `render.yaml`.
 
 В терминале VS Code из папки `ForHost` выполни:
 
@@ -256,6 +257,12 @@ MANAGER_NOTIFICATION_EMAILS=manager1@твой-домен.ru,manager2@твой-д
 3. Дождись успешного запуска.
 
 Во время запуска должны выполниться команды из `amvera.yaml`:
+
+```bash
+sh start.sh
+```
+
+А внутри `start.sh` выполняются:
 
 ```bash
 python3 manage.py migrate

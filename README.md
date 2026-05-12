@@ -194,8 +194,10 @@ python3 manage.py createsuperuser
 
 Команда запуска уже указана в `amvera.yaml`:
 ```bash
-python3 manage.py migrate && python3 manage.py collectstatic --noinput && gunicorn telemaster74.wsgi:application --bind 0.0.0.0:80
+sh start.sh
 ```
+
+Скрипт `start.sh` выполняет миграции, собирает статику и запускает Gunicorn.
 
 Подробная инструкция лежит в `HOSTING_AMVERA_INSTRUCTION.md`.
 
