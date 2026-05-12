@@ -180,29 +180,24 @@ python manage.py backup_database
 
 Файлы сохраняются в `backups/`, эта папка не попадает в Git. На продакшене настройте регулярный запуск команды или используйте автоматические backups PostgreSQL у провайдера.
 
-## Деплой на Render: общий порядок
+## Деплой на Amvera Cloud: общий порядок
 1. Создать репозиторий GitHub и загрузить проект.
-2. Создать Blueprint на Render из репозитория.
-3. Render прочитает `render.yaml` и создаст Web Service + PostgreSQL.
-4. Указать `ALLOWED_HOSTS` и `CSRF_TRUSTED_ORIGINS`.
-5. Build command уже указан:
+2. Создать PostgreSQL в Amvera.
+3. Создать Python-приложение в Amvera из GitHub-репозитория.
+4. Убедиться, что Amvera использует `amvera.yaml`.
+5. Заполнить `SECRET_KEY`, `DATABASE_URL`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, `SITE_DOMAIN`.
+6. Запустить деплой.
+7. После первого запуска создать администратора:
 ```bash
-pip install -r requirements.txt && python manage.py collectstatic --noinput
-```
-6. Pre-deploy command уже указан:
-```bash
-python manage.py migrate
-```
-7. Start command уже указан:
-```bash
-gunicorn telemaster74.wsgi:application --bind 0.0.0.0:$PORT
-```
-8. После первого деплоя открыть Shell и создать администратора:
-```bash
-python manage.py createsuperuser
+python3 manage.py createsuperuser
 ```
 
-Подробная инструкция лежит в `DEPLOY.md`.
+Команда запуска уже указана в `amvera.yaml`:
+```bash
+python3 manage.py migrate && python3 manage.py collectstatic --noinput && gunicorn telemaster74.wsgi:application --bind 0.0.0.0:80
+```
+
+Подробная инструкция лежит в `HOSTING_AMVERA_INSTRUCTION.md`.
 
 ## Перед реальной эксплуатацией
 В коде уже добавлены уведомления о новых заявках, журнал статусов, антиспам, политика персональных данных, CSV-экспорт и команда backup. Перед запуском останется подключить реальный домен, заполнить `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, SMTP-переменные и корпоративную почту.
