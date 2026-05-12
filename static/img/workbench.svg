@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" role="img" aria-label="Рабочее место сервисной мастерской">
+  <defs>
+    <linearGradient id="screen" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#102c2a"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#dbe4df"/>
+      <stop offset="1" stop-color="#8fa09a"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="520" rx="28" fill="#e9eee9"/>
+  <rect x="44" y="340" width="672" height="82" rx="18" fill="#73553a"/>
+  <rect x="70" y="372" width="620" height="22" rx="11" fill="#4f3827" opacity=".46"/>
+  <rect x="136" y="104" width="350" height="220" rx="18" fill="#17201c"/>
+  <rect x="158" y="126" width="306" height="166" rx="10" fill="url(#screen)"/>
+  <path d="M188 252h244" stroke="#7dd3ca" stroke-width="10" stroke-linecap="round" opacity=".38"/>
+  <path d="M188 224h134" stroke="#f2b84b" stroke-width="10" stroke-linecap="round"/>
+  <path d="M188 190h214" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity=".78"/>
+  <path d="M188 160h92" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity=".52"/>
+  <rect x="260" y="324" width="102" height="28" rx="10" fill="#26352f"/>
+  <rect x="222" y="352" width="178" height="24" rx="12" fill="#1a2521"/>
+  <rect x="508" y="172" width="94" height="160" rx="18" fill="#252f2b"/>
+  <rect x="526" y="196" width="58" height="102" rx="10" fill="#0f766e"/>
+  <circle cx="555" cy="314" r="9" fill="#f2b84b"/>
+  <path d="M600 218c32-14 48-6 48 22v44" fill="none" stroke="#f2b84b" stroke-width="12" stroke-linecap="round"/>
+  <rect x="118" y="374" width="170" height="18" rx="9" fill="url(#metal)"/>
+  <rect x="144" y="352" width="58" height="24" rx="8" fill="#0f766e"/>
+  <path d="M512 376l92-46 16 28-86 56z" fill="#cbd5cf"/>
+  <path d="M604 330l32-18 20 34-36 12z" fill="#f2b84b"/>
+  <circle cx="612" cy="354" r="9" fill="#17201c"/>
+  <rect x="82" y="420" width="596" height="18" rx="9" fill="#2c2119"/>
+  <rect x="116" y="438" width="42" height="50" rx="10" fill="#5a3e2b"/>
+  <rect x="604" y="438" width="42" height="50" rx="10" fill="#5a3e2b"/>
+  <circle cx="94" cy="104" r="12" fill="#f2b84b"/>
+  <circle cx="650" cy="112" r="16" fill="#0f766e"/>
+  <circle cx="682" cy="148" r="8" fill="#f2b84b"/>
+</svg>

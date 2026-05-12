@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — RET 74{% endblock %}
+{% block content %}
+<section class="form-section">
+    <div class="container">
+        <div class="form-shell">
+            <div class="form-intro">
+                <span class="eyebrow">Регистрация</span>
+                <p>После регистрации новые заявки будут сохраняться в вашем кабинете.</p>
+            </div>
+            <form method="post" class="app-card">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-primary w-100" type="submit">Зарегистрироваться</button>
+                    <p class="form-note">Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

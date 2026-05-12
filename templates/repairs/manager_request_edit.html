@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Редактировать {{ repair_request.code }} — RET 74{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h1 class="mb-3">Редактировать заявку {{ repair_request.code }}</h1>
+        <form method="post" class="card">
+            <div class="card-body">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a class="btn btn-outline-secondary" href="{% url 'manager_requests' %}">Отмена</a>
+                </div>
+            </div>
+        </form>
+        {% if status_history %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Журнал статусов</h2>
+                    <div class="status-timeline">
+                        {% for change in status_history %}
+                            <div class="status-timeline-item">
+                                <div>
+                                    <span class="status-badge status-{{ change.new_status.slug }}">{{ change.new_status.title }}</span>
+                                    {% if change.old_status %}
+                                        <span class="text-secondary small">после «{{ change.old_status.title }}»</span>
+                                    {% endif %}
+                                    {% if change.changed_by %}
+                                        <span class="text-secondary small">изменил {{ change.changed_by.username }}</span>
+                                    {% endif %}
+                                </div>
+                                <time>{{ change.created_at|date:"d.m.Y H:i" }}</time>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Мои заявки — RET 74{% endblock %}
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="page-head">
+            <div>
+                <span class="eyebrow">Личный кабинет</span>
+                <h1>Мои заявки</h1>
+            </div>
+            <a class="btn btn-primary" href="{% url 'create_request' %}">Новая заявка</a>
+        </div>
+
+        <div class="request-list">
+            {% for item in requests_list %}
+                <article class="request-card">
+                    <div>
+                        <div class="request-code">{{ item.code }}</div>
+                        <h2>{{ item.device }}</h2>
+                        <p>{{ item.problem_description|truncatechars:140 }}</p>
+                    </div>
+                    <div class="request-meta">
+                        <span class="status-badge status-{{ item.status.slug }}">{{ item.status.title }}</span>
+                        <span>{{ item.created_at|date:"d.m.Y H:i" }}</span>
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'request_status' item.code %}">Подробнее</a>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-state">
+                    <h2>Заявок пока нет</h2>
+                    <p>Создайте первую заявку, и она появится здесь вместе с текущим статусом ремонта.</p>
+                    <a class="btn btn-primary" href="{% url 'create_request' %}">Оставить заявку</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

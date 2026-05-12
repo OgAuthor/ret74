@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Заявка создана — RET 74{% endblock %}
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="empty-state">
+            <span class="eyebrow">Заявка принята</span>
+            <h1 class="mt-2">Мы получили обращение</h1>
+            <p class="mb-2">Код заявки:</p>
+            <div class="display-6 fw-bold text-primary">{{ repair_request.code }}</div>
+            {% if user.is_authenticated %}
+                <p class="mt-3">Заявка сохранена в вашем личном кабинете.</p>
+                <a class="btn btn-primary" href="{% url 'client_requests' %}">Открыть мои заявки</a>
+            {% else %}
+                <p class="mt-3">Сохраните код, чтобы проверить текущий статус ремонта.</p>
+                <a class="btn btn-primary" href="{% url 'request_status' repair_request.code %}">Проверить статус</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

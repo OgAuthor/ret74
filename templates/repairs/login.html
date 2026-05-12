@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Вход — RET 74{% endblock %}
+{% block content %}
+<section class="form-section">
+    <div class="container">
+        <div class="form-shell compact">
+            <div class="form-intro">
+                <span class="eyebrow">Вход в личный кабинет</span>
+            </div>
+            <form method="post" class="app-card">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger">Неверный логин или пароль.</div>
+                    {% endif %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-primary w-100" type="submit">Войти</button>
+                    <p class="form-note">Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

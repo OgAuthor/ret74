@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Статус заявки {{ repair_request.code }} — RET 74{% endblock %}
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="form-shell compact">
+            <div class="form-intro">
+                <span class="eyebrow">Статус ремонта</span>
+                <h1>Заявка {{ repair_request.code }}</h1>
+                <p>Здесь отображается текущий этап ремонта и основные данные обращения.</p>
+            </div>
+            <div class="app-card">
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Устройство</dt>
+                        <dd class="col-sm-8">{{ repair_request.device }}</dd>
+
+                        <dt class="col-sm-4">Статус</dt>
+                        <dd class="col-sm-8">
+                            <span class="status-badge status-{{ repair_request.status.slug }}">{{ repair_request.status.title }}</span>
+                        </dd>
+
+                        <dt class="col-sm-4">Создана</dt>
+                        <dd class="col-sm-8">{{ repair_request.created_at|date:"d.m.Y H:i" }}</dd>
+
+                        <dt class="col-sm-4">Обновлена</dt>
+                        <dd class="col-sm-8">{{ repair_request.updated_at|date:"d.m.Y H:i" }}</dd>
+                    </dl>
+                </div>
+            </div>
+            {% if status_history %}
+                <div class="app-card mt-3">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">История статусов</h2>
+                        <div class="status-timeline">
+                            {% for change in status_history %}
+                                <div class="status-timeline-item">
+                                    <div>
+                                        <span class="status-badge status-{{ change.new_status.slug }}">{{ change.new_status.title }}</span>
+                                        {% if change.old_status %}
+                                            <span class="text-secondary small">после «{{ change.old_status.title }}»</span>
+                                        {% endif %}
+                                    </div>
+                                    <time>{{ change.created_at|date:"d.m.Y H:i" }}</time>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

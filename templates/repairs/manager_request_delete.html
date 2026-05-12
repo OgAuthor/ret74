@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Удалить {{ repair_request.code }} — RET 74{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="mb-3">Удалить заявку</h1>
+        <div class="card">
+            <div class="card-body">
+                <p>Вы действительно хотите удалить заявку <strong>{{ repair_request.code }}</strong>?</p>
+                <p class="text-secondary mb-4">Это действие нельзя отменить.</p>
+                <form method="post" class="d-flex gap-2">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                    <a class="btn btn-outline-secondary" href="{% url 'manager_requests' %}">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

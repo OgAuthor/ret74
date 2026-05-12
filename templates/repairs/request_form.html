@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Оставить заявку — RET 74{% endblock %}
+{% block content %}
+<section class="form-section">
+    <div class="container">
+        <div class="form-shell">
+            <div class="form-intro">
+                <span class="eyebrow">Заявка на ремонт</span>
+                <h1>Расскажите, что случилось с техникой</h1>
+                <p>
+                    Укажите устройство, телефон и коротко опишите неисправность. Если вы вошли в аккаунт,
+                    заявка появится в личном кабинете автоматически.
+                </p>
+            </div>
+            <form method="post" class="app-card">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {% for field in form.hidden_fields %}
+                        {{ field }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        <div class="mb-3">
+                            {% if field.name == "personal_data_consent" %}
+                                <div class="form-check">
+                                    {{ field }}
+                                    <label class="form-check-label" for="{{ field.id_for_label }}">
+                                        Согласен(на) на обработку персональных данных и принимаю
+                                        <a href="{% url 'privacy_policy' %}" target="_blank" rel="noopener">политику конфиденциальности</a>.
+                                    </label>
+                                </div>
+                            {% else %}
+                                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-primary w-100" type="submit">Отправить заявку</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

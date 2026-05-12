@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Проверить статус — RET 74{% endblock %}
+{% block content %}
+<section class="form-section">
+    <div class="container">
+        <div class="form-shell compact">
+            <div class="form-intro">
+                <span class="eyebrow">Статус ремонта</span>
+                <h1>Проверка по коду</h1>
+                <p>Введите код заявки, который появился после отправки обращения. Авторизованные клиенты также видят свои заявки в кабинете.</p>
+            </div>
+            <form method="post" class="app-card">
+                <div class="card-body">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.code.id_for_label }}">{{ form.code.label }}</label>
+                        {{ form.code }}
+                        {% if form.code.errors %}
+                            <div class="text-danger small mt-1">{{ form.code.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit">Проверить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
