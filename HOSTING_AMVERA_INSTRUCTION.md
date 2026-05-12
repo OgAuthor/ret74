@@ -10,7 +10,7 @@
 manage.py
 requirements.txt
 amvera.yaml
-start.sh
+app.py
 repairs/
 telemaster74/
 templates/
@@ -31,12 +31,12 @@ build:
   useCache: true
 
 run:
-  command: ./start.sh
+  command: python3 app.py
   persistenceMount: /data
   containerPort: 80
 ```
 
-То есть Amvera сама установит зависимости из `requirements.txt`, а при запуске вызовет `start.sh`. Скрипт выполнит миграции, соберет статику и запустит сайт через Gunicorn.
+То есть Amvera сама установит зависимости из `requirements.txt`, а при запуске вызовет `app.py`. Скрипт выполнит миграции, соберет статику и запустит сайт через Gunicorn.
 
 ## 2. Открыть проект в Visual Studio Code
 
@@ -126,7 +126,7 @@ http://127.0.0.1:8000/
 https://github.com/OgAuthor/ret74.git
 ```
 
-После перехода с Render на Amvera надо загрузить новые файлы: `amvera.yaml`, `start.sh`, новую инструкцию и удаление `render.yaml`.
+После перехода с Render на Amvera надо загрузить новые файлы: `amvera.yaml`, `app.py`, новую инструкцию и удаление `render.yaml`.
 
 В терминале VS Code из папки `ForHost` выполни:
 
@@ -260,7 +260,7 @@ MANAGER_NOTIFICATION_EMAILS=manager1@твой-домен.ru,manager2@твой-д
 Во время запуска должны выполниться команды из `amvera.yaml`:
 
 ```bash
-./start.sh
+python3 app.py
 ```
 
 В интерфейсе Amvera также заполни:
@@ -269,7 +269,7 @@ MANAGER_NOTIFICATION_EMAILS=manager1@твой-домен.ru,manager2@твой-д
 persistenceMount=/data
 ```
 
-А внутри `start.sh` выполняются:
+А внутри `app.py` выполняются:
 
 ```bash
 python3 manage.py migrate
