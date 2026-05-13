@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -180,18 +179,38 @@ def filter_manager_requests(request):
     query = request.GET.get("q", "").strip()
     status_slug = request.GET.get("status", "").strip()
 
-    if query:
-        requests_qs = requests_qs.filter(
-            Q(code__icontains=query)
-            | Q(customer_name__icontains=query)
-            | Q(phone__icontains=query)
-            | Q(device__icontains=query)
-        )
-
     if status_slug:
         requests_qs = requests_qs.filter(status__slug=status_slug)
 
+    if query:
+        matched_ids = [
+            item.pk
+            for item in requests_qs
+            if manager_request_matches_query(item, query)
+        ]
+        requests_qs = requests_qs.filter(pk__in=matched_ids)
+
     return requests_qs
+
+
+def manager_request_matches_query(repair_request, query):
+    normalized_query = query.casefold()
+    query_digits = "".join(char for char in query if char.isdigit())
+    fields = [
+        repair_request.code,
+        repair_request.customer_name,
+        repair_request.phone,
+        repair_request.device,
+    ]
+
+    if any(normalized_query in str(value).casefold() for value in fields):
+        return True
+
+    if query_digits:
+        phone_digits = "".join(char for char in repair_request.phone if char.isdigit())
+        return query_digits in phone_digits
+
+    return False
 
 
 @user_passes_test(staff_required, login_url="login")

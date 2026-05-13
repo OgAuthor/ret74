@@ -83,6 +83,11 @@ a {
     font-weight: 500;
 }
 
+.nav-link-accent {
+    color: var(--workshop-primary);
+    font-weight: 800;
+}
+
 .nav-actions {
     align-items: center;
     display: flex;

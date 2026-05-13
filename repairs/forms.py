@@ -4,9 +4,31 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from .models import RepairRequest, Status
+from .models import RepairRequest
 
 User = get_user_model()
+
+
+PHONE_MASK_ATTRS = {
+    "class": "form-control js-phone-mask",
+    "placeholder": "+7 (xxx) xxx-xx-xx",
+    "inputmode": "tel",
+    "autocomplete": "tel",
+    "data-phone-mask": "ru",
+}
+
+
+def format_phone_number(phone):
+    digits = re.sub(r"\D", "", phone)
+
+    if len(digits) == 11 and digits[0] in ("7", "8"):
+        digits = digits[1:]
+    elif len(digits) == 10:
+        pass
+    else:
+        raise forms.ValidationError("Введите номер в формате +7 (xxx) xxx-xx-xx.")
+
+    return f"+7 ({digits[:3]}) {digits[3:6]}-{digits[6:8]}-{digits[8:10]}"
 
 
 class ClientRegistrationForm(UserCreationForm):
@@ -78,7 +100,7 @@ class RepairRequestCreateForm(forms.ModelForm):
         fields = ["customer_name", "phone", "device", "problem_description"]
         widgets = {
             "customer_name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Иванов Иван Иванович"}),
-            "phone": forms.TextInput(attrs={"class": "form-control", "placeholder": "+7 900 000-00-00"}),
+            "phone": forms.TextInput(attrs=PHONE_MASK_ATTRS),
             "device": forms.TextInput(attrs={"class": "form-control", "placeholder": "Телевизор, ноутбук, приставка..."}),
             "problem_description": forms.Textarea(
                 attrs={
@@ -96,11 +118,7 @@ class RepairRequestCreateForm(forms.ModelForm):
             self.fields["captcha_answer"].label = f"Антиспам: {captcha_question}"
 
     def clean_phone(self):
-        phone = self.cleaned_data["phone"].strip()
-        normalized = re.sub(r"[^\d+]", "", phone)
-        if not re.fullmatch(r"\+?\d{10,15}", normalized):
-            raise forms.ValidationError("Введите корректный номер телефона.")
-        return phone
+        return format_phone_number(self.cleaned_data["phone"])
 
     def clean_website(self):
         website = self.cleaned_data.get("website", "")
@@ -138,8 +156,11 @@ class RepairRequestManagerForm(forms.ModelForm):
         fields = ["customer_name", "phone", "device", "problem_description", "status"]
         widgets = {
             "customer_name": forms.TextInput(attrs={"class": "form-control"}),
-            "phone": forms.TextInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs=PHONE_MASK_ATTRS),
             "device": forms.TextInput(attrs={"class": "form-control"}),
             "problem_description": forms.Textarea(attrs={"class": "form-control", "rows": 5}),
             "status": forms.Select(attrs={"class": "form-select"}),
         }
+
+    def clean_phone(self):
+        return format_phone_number(self.cleaned_data["phone"])
